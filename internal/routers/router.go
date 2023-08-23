@@ -11,4 +11,5 @@ func InitRouter(router *gin.Engine) {
 
 	// Set up routes
 	router.POST("/transactions", transactionHandler.CreateTransaction)
+	router.POST("/bulkTransactions", transactionHandler.CreateTransactions)
 }

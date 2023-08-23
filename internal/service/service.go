@@ -6,7 +6,6 @@ import (
 	"github.com/gusetiawn/BPJS-Test/internal/repository"
 	"log"
 	"sync"
-	"time"
 )
 
 type TransactionService struct {
@@ -25,9 +24,6 @@ func (s *TransactionService) ProcessTransaction(t model.Transaction) {
 	go func() {
 		defer s.wg.Done()
 
-		// Simulate processing time
-		time.Sleep(10 * time.Millisecond)
-
 		err := s.repo.InsertTransaction(t)
 		if err != nil {
 			log.Printf("Error inserting transaction with ID %d: %v\n", t.ID, err)
@@ -35,6 +31,14 @@ func (s *TransactionService) ProcessTransaction(t model.Transaction) {
 	}()
 }
 
-func (s *TransactionService) WaitForCompletion() {
-	s.wg.Wait()
+func (s *TransactionService) ProcessTransactions(t []model.Transaction) {
+	s.wg.Add(len(t))
+
+	for _, transaction := range t {
+		err := s.repo.InsertTransaction(transaction)
+		if err != nil {
+			log.Printf("Error inserting transaction with ID %d: %v\n", transaction.ID, err)
+		}
+	}
+
 }

@@ -20,6 +20,7 @@ type Transaction struct {
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
+	start := time.Now()
 	apiURL := "http://localhost:8080/transactions"
 
 	for i := 1; i <= 1000; i++ {
@@ -47,4 +48,6 @@ func main() {
 
 		fmt.Printf("Response Status: %s\n", response.Status)
 	}
+	elapsed := time.Since(start)
+	fmt.Printf("Waktu eksekusi: %s\n", elapsed)
 }

@@ -32,3 +32,15 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 
 	c.JSON(http.StatusAccepted, gin.H{"message": "Transaction processing started"})
 }
+
+func (h *TransactionHandler) CreateTransactions(c *gin.Context) {
+	var transaction []model.Transaction
+	if err := c.ShouldBindJSON(&transaction); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	go h.transactionService.ProcessTransactions(transaction)
+
+	c.JSON(http.StatusAccepted, gin.H{"message": "Transaction processing started"})
+}

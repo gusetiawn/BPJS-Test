@@ -13,7 +13,7 @@ const (
 	dbPort     = 5432
 	dbUser     = "postgres"
 	dbPassword = "postgres"
-	dbName     = "marvel"
+	dbName     = "scriptku"
 )
 
 func NewDatabaseConnection() *sql.DB {
