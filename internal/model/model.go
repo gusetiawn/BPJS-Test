@@ -9,3 +9,8 @@ type Transaction struct {
 	Price     float64   `json:"price"`
 	Timestamp time.Time `json:"timestamp"`
 }
+
+type Request struct {
+	RequestID int           `json:"request_Id"`
+	Data      []Transaction `json:"data"`
+}

@@ -23,6 +23,7 @@ func NewTransactionHandler() *TransactionHandler {
 
 func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 	var transaction model.Transaction
+
 	if err := c.ShouldBindJSON(&transaction); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -33,14 +34,15 @@ func (h *TransactionHandler) CreateTransaction(c *gin.Context) {
 	c.JSON(http.StatusAccepted, gin.H{"message": "Transaction processing started"})
 }
 
-func (h *TransactionHandler) CreateTransactions(c *gin.Context) {
-	var transaction []model.Transaction
-	if err := c.ShouldBindJSON(&transaction); err != nil {
+func (h *TransactionHandler) CreateBulkTransactions(c *gin.Context) {
+	var request model.Request
+
+	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	go h.transactionService.ProcessTransactions(transaction)
+	go h.transactionService.ProcessBulkTransactions(request)
 
 	c.JSON(http.StatusAccepted, gin.H{"message": "Transaction processing started"})
 }
