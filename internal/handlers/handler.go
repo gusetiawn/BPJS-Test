@@ -46,3 +46,16 @@ func (h *TransactionHandler) CreateBulkTransactions(c *gin.Context) {
 
 	c.JSON(http.StatusAccepted, gin.H{"message": "Transaction processing started"})
 }
+
+func (h *TransactionHandler) CreateBulkTransactionsWithGoroutine(c *gin.Context) {
+	var request model.Request
+
+	if err := c.ShouldBindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	go h.transactionService.ProcessBulkTransactions(request)
+
+	c.JSON(http.StatusAccepted, gin.H{"message": "Transaction processing started with goroutine"})
+}

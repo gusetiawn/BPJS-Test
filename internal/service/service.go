@@ -45,3 +45,16 @@ func (s *TransactionService) ProcessBulkTransactions(req model.Request) {
 	fmt.Printf("Waktu eksekusi: %s\n", elapsed)
 
 }
+
+func (s *TransactionService) ProcessBulkTransactionsWithGoroutine(req model.Request) {
+	start := time.Now()
+
+	err := s.repo.InsertBulkTransactionWithGoroutine(req.Data)
+	if err != nil {
+		log.Printf("Error inserting transaction with ID %d: %v\n", req.RequestID, err)
+	}
+
+	elapsed := time.Since(start)
+	fmt.Printf("Waktu eksekusi: %s\n", elapsed)
+
+}
